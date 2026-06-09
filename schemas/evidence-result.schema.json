@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/winnie6688/Requirement-to-System-Mapper/schemas/evidence-result.schema.json",
+  "title": "EvidenceResult",
+  "description": "Structured output schema for the Documentation Research Agent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "evidence_results"
+  ],
+  "properties": {
+    "research_scope": {
+      "type": "array",
+      "description": "Documentation domains searched or considered.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "feishu_api",
+          "wechat_official_account_api",
+          "feishu_cli",
+          "out_of_scope"
+        ]
+      },
+      "default": []
+    },
+    "evidence_results": {
+      "type": "array",
+      "description": "Evidence results for each verification question.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "question",
+          "domain",
+          "conclusion",
+          "official_source",
+          "source_link",
+          "evidence_summary",
+          "is_sufficient",
+          "remaining_uncertainties"
+        ],
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "The verification question being researched."
+          },
+          "domain": {
+            "type": "string",
+            "description": "The documentation domain related to the question.",
+            "enum": [
+              "feishu_api",
+              "wechat_official_account_api",
+              "feishu_cli",
+              "out_of_scope"
+            ]
+          },
+          "conclusion": {
+            "type": "string",
+            "description": "Evidence-based conclusion from official or traceable sources.",
+            "enum": [
+              "supported",
+              "unsupported",
+              "not_found",
+              "partially_supported"
+            ]
+          },
+          "official_source": {
+            "type": "string",
+            "description": "Name of the official or traceable source. Use empty string if no source was found."
+          },
+          "source_link": {
+            "type": "string",
+            "description": "URL or traceable location of the source. Use empty string if no source was found."
+          },
+          "evidence_summary": {
+            "type": "string",
+            "description": "A concise explanation of what the source proves or does not prove."
+          },
+          "is_sufficient": {
+            "type": "boolean",
+            "description": "Whether the evidence is sufficient to support a verified conclusion for this specific question."
+          },
+          "remaining_uncertainties": {
+            "type": "array",
+            "description": "Unresolved issues after documentation research.",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "conflicts_or_gaps": {
+      "type": "array",
+      "description": "Missing, conflicting, or ambiguous evidence that needs manual confirmation or minimum testing.",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "research_limitations": {
+      "type": "array",
+      "description": "Limitations of this research pass, such as inaccessible official docs or out-of-scope domains.",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  }
+}
