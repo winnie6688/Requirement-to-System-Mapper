@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/winnie6688/Requirement-to-System-Mapper/schemas/task-routing.schema.json",
+  "title": "TaskRoutingResult",
+  "description": "Structured output schema for the Orchestrator Agent task routing result.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_type",
+    "reason",
+    "detected_triggers",
+    "next_agents"
+  ],
+  "properties": {
+    "task_type": {
+      "type": "string",
+      "description": "The routing category selected by the Orchestrator Agent.",
+      "enum": [
+        "terminology_only",
+        "integration_validation",
+        "mixed",
+        "unclear"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "description": "A concise explanation for why this task type was selected."
+    },
+    "detected_triggers": {
+      "type": "array",
+      "description": "Keywords or signals detected in the user input that influenced routing.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "next_agents": {
+      "type": "array",
+      "description": "The agent sequence that should process the task next.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "terminology_agent",
+          "integration_mapper_agent",
+          "documentation_research_agent",
+          "verification_reviewer_agent"
+        ]
+      }
+    },
+    "missing_information": {
+      "type": "array",
+      "description": "Questions or missing information required when task_type is unclear.",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "risk_flags": {
+      "type": "array",
+      "description": "Initial high-risk signals detected by the Orchestrator Agent.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "publishing",
+          "mass_messaging",
+          "deletion",
+          "payment",
+          "batch_write",
+          "production_environment",
+          "sensitive_credential",
+          "permission_change",
+          "unknown"
+        ]
+      },
+      "default": []
+    }
+  }
+}
