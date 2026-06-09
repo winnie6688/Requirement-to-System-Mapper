@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/winnie6688/Requirement-to-System-Mapper/schemas/terminology-output.schema.json",
+  "title": "TerminologyOutput",
+  "description": "Structured output schema for the Terminology Agent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "original_requirement",
+    "professional_terms",
+    "recommended_expression",
+    "involves_external_system"
+  ],
+  "properties": {
+    "original_requirement": {
+      "type": "string",
+      "description": "A clear restatement of the user's original requirement."
+    },
+    "professional_terms": {
+      "type": "array",
+      "description": "Professional terms mapped from the user's natural language description.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "term_cn",
+          "term_en",
+          "category",
+          "explanation",
+          "when_to_use"
+        ],
+        "properties": {
+          "term_cn": {
+            "type": "string",
+            "description": "Chinese name or explanation of the term."
+          },
+          "term_en": {
+            "type": "string",
+            "description": "English professional term."
+          },
+          "category": {
+            "type": "string",
+            "description": "The technical or product category of the term.",
+            "enum": [
+              "frontend",
+              "backend",
+              "database",
+              "api",
+              "permission",
+              "product",
+              "ux",
+              "workflow",
+              "other"
+            ]
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Plain-language explanation of the term."
+          },
+          "when_to_use": {
+            "type": "string",
+            "description": "Scenario where this term should be used."
+          }
+        }
+      }
+    },
+    "confusing_concepts": {
+      "type": "array",
+      "description": "Similar concepts that may be confused with the selected term.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "concept_a",
+          "concept_b",
+          "difference"
+        ],
+        "properties": {
+          "concept_a": {
+            "type": "string"
+          },
+          "concept_b": {
+            "type": "string"
+          },
+          "difference": {
+            "type": "string"
+          }
+        }
+      },
+      "default": []
+    },
+    "recommended_expression": {
+      "type": "string",
+      "description": "A professional expression that can be given to AI Coding tools or developers."
+    },
+    "involves_external_system": {
+      "type": "boolean",
+      "description": "Whether the requirement appears to involve an external system, API, CLI, permission, schema, or credential."
+    },
+    "external_system_signals": {
+      "type": "array",
+      "description": "Signals indicating possible external system integration.",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "handoff_recommendation": {
+      "type": "string",
+      "description": "Recommended next step after terminology conversion.",
+      "enum": [
+        "final_answer",
+        "handoff_to_integration_mapper",
+        "needs_clarification"
+      ],
+      "default": "final_answer"
+    }
+  }
+}
