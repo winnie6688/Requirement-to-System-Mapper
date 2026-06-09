@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/winnie6688/Requirement-to-System-Mapper/schemas/verification-review.schema.json",
+  "title": "VerificationReviewResult",
+  "description": "Structured output schema for the Verification Reviewer Agent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "overall_judgment",
+    "verified_facts",
+    "reasonable_assumptions",
+    "pending_items",
+    "high_risk_assumptions",
+    "invalid_assumptions",
+    "minimum_validation_steps"
+  ],
+  "properties": {
+    "overall_judgment": {
+      "type": "string",
+      "description": "Overall review result for whether the workflow can proceed.",
+      "enum": [
+        "can_answer_lightly",
+        "can_design_solution",
+        "should_not_enter_development",
+        "requires_minimum_validation",
+        "high_risk_requires_confirmation"
+      ]
+    },
+    "verified_facts": {
+      "type": "array",
+      "description": "Facts supported by official documentation, real test results, or reliable user-provided evidence.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fact",
+          "evidence_source",
+          "note"
+        ],
+        "properties": {
+          "fact": {
+            "type": "string"
+          },
+          "evidence_source": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "reasonable_assumptions": {
+      "type": "array",
+      "description": "Assumptions that are reasonable from an engineering perspective but still need verification.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "assumption",
+          "why_reasonable",
+          "what_to_verify"
+        ],
+        "properties": {
+          "assumption": {
+            "type": "string"
+          },
+          "why_reasonable": {
+            "type": "string"
+          },
+          "what_to_verify": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "pending_items": {
+      "type": "array",
+      "description": "Items that remain unresolved due to missing evidence, missing schema, missing permission information, or insufficient user context.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "item",
+          "why_important",
+          "how_to_confirm"
+        ],
+        "properties": {
+          "item": {
+            "type": "string"
+          },
+          "why_important": {
+            "type": "string"
+          },
+          "how_to_confirm": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "high_risk_assumptions": {
+      "type": "array",
+      "description": "Assumptions or actions that could cause failure, public exposure, data pollution, or irreversible effects.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "assumption",
+          "risk",
+          "mitigation"
+        ],
+        "properties": {
+          "assumption": {
+            "type": "string"
+          },
+          "risk": {
+            "type": "string"
+          },
+          "mitigation": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "invalid_assumptions": {
+      "type": "array",
+      "description": "Assumptions that should be withdrawn because evidence does not support them or because they confuse separate concepts.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "assumption",
+          "why_invalid",
+          "replacement"
+        ],
+        "properties": {
+          "assumption": {
+            "type": "string"
+          },
+          "why_invalid": {
+            "type": "string"
+          },
+          "replacement": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "minimum_validation_steps": {
+      "type": "array",
+      "description": "Concrete next validation steps in priority order.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "step",
+          "purpose",
+          "priority"
+        ],
+        "properties": {
+          "step": {
+            "type": "string"
+          },
+          "purpose": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "P0",
+              "P1",
+              "P2"
+            ]
+          }
+        }
+      }
+    },
+    "recommendation_for_orchestrator": {
+      "type": "string",
+      "description": "How the Orchestrator Agent should word the final output based on the review result.",
+      "default": ""
+    }
+  }
+}
