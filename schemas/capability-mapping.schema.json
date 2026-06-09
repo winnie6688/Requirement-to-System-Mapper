@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/winnie6688/Requirement-to-System-Mapper/schemas/capability-mapping.schema.json",
+  "title": "CapabilityMappingResult",
+  "description": "Structured output schema for the Integration Mapper Agent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "involved_systems",
+    "business_actions",
+    "data_objects",
+    "data_flow",
+    "possible_api_or_cli_capabilities",
+    "possible_fields_or_ids",
+    "possible_permissions",
+    "verification_questions"
+  ],
+  "properties": {
+    "involved_systems": {
+      "type": "array",
+      "description": "Systems involved in the user requirement.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "system_name",
+          "system_type",
+          "role",
+          "needs_external_verification"
+        ],
+        "properties": {
+          "system_name": {
+            "type": "string",
+            "description": "Name of the system, such as Feishu Bitable or internal backend."
+          },
+          "system_type": {
+            "type": "string",
+            "enum": [
+              "internal_frontend",
+              "internal_backend",
+              "internal_database",
+              "feishu_api",
+              "wechat_official_account_api",
+              "feishu_cli",
+              "file_storage",
+              "automation_workflow",
+              "out_of_scope",
+              "other"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "description": "Role of the system in the workflow."
+          },
+          "needs_external_verification": {
+            "type": "boolean",
+            "description": "Whether this system capability needs official evidence verification."
+          }
+        }
+      }
+    },
+    "business_actions": {
+      "type": "array",
+      "description": "Business actions extracted from the requirement.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "action_name",
+          "description",
+          "possible_systems"
+        ],
+        "properties": {
+          "action_name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "possible_systems": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "data_objects": {
+      "type": "array",
+      "description": "Data objects, identifiers, or connection values that may be involved.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "object_name",
+          "possible_meaning",
+          "needs_verification"
+        ],
+        "properties": {
+          "object_name": {
+            "type": "string"
+          },
+          "possible_meaning": {
+            "type": "string"
+          },
+          "needs_verification": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "data_flow": {
+      "type": "array",
+      "description": "Initial data flow steps.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "from",
+          "to",
+          "data",
+          "trigger"
+        ],
+        "properties": {
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "data": {
+            "type": "string"
+          },
+          "trigger": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "possible_api_or_cli_capabilities": {
+      "type": "array",
+      "description": "Possible external capabilities that need evidence verification.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "system",
+          "capability",
+          "reason",
+          "status"
+        ],
+        "properties": {
+          "system": {
+            "type": "string"
+          },
+          "capability": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "needs_verification",
+              "out_of_scope"
+            ]
+          }
+        }
+      }
+    },
+    "possible_fields_or_ids": {
+      "type": "array",
+      "description": "Potential fields, IDs, or connection values.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "type",
+          "description",
+          "needs_verification"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "field",
+              "field_id",
+              "record_id",
+              "table_id",
+              "app_token",
+              "media_id",
+              "draft_id",
+              "status",
+              "timestamp",
+              "other"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "needs_verification": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "possible_permissions": {
+      "type": "array",
+      "description": "Possible permissions or credential requirements that should be checked.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "permission_name",
+          "reason",
+          "needs_verification"
+        ],
+        "properties": {
+          "permission_name": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "needs_verification": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "verification_questions": {
+      "type": "array",
+      "description": "Questions to be passed to the Documentation Research Agent.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "question",
+          "why_verify",
+          "domain"
+        ],
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "why_verify": {
+            "type": "string"
+          },
+          "domain": {
+            "type": "string",
+            "enum": [
+              "feishu_api",
+              "wechat_official_account_api",
+              "feishu_cli",
+              "out_of_scope"
+            ]
+          }
+        }
+      }
+    },
+    "high_risk_candidates": {
+      "type": "array",
+      "description": "Potential high-risk assumptions or actions detected by the Integration Mapper Agent.",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  }
+}
